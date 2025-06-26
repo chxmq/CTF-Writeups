@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eterna Forest Ultra Challenge - Advanced Steganography CTF</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cyber': ['Orbitron', 'monospace'],
+                        'futuristic': ['Exo 2', 'sans-serif']
+                    },
+                    colors: {
+                        'ghost': {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            500: '#6B46C1',
+                            600: '#581C87',
+                            700: '#4C1D95',
+                            800: '#3730A3',
+                            900: '#312E81'
+                        },
+                        'eterna': {
+                            500: '#1E293B',
+                            600: '#0F172A',
+                            700: '#020617'
+                        },
+                        'forest': {
+                            500: '#065F46',
+                            600: '#064E3B',
+                            700: '#022C22'
+                        },
+                        'distortion': {
+                            500: '#7C3AED',
+                            600: '#6D28D9',
+                            700: '#5B21B6'
+                        },
+                        'neon': {
+                            'blue': '#00D4FF',
+                            'purple': '#A855F7',
+                            'pink': '#EC4899',
+                            'green': '#10B981',
+                            'yellow': '#F59E0B'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'pulse-neon': 'pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'matrix': 'matrix 20s linear infinite',
+                        'ghost-float': 'ghost-float 8s ease-in-out infinite',
+                        'data-flow': 'data-flow 15s linear infinite',
+                        'cyber-pulse': 'cyber-pulse 3s ease-in-out infinite',
+                        'hologram': 'hologram 4s ease-in-out infinite',
+                        'scan-line': 'scan-line 2s linear infinite',
+                        'digital-rain': 'digital-rain 25s linear infinite',
+                        'energy-wave': 'energy-wave 3s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px #7C3AED, 0 0 40px #7C3AED' },
+                            '100%': { boxShadow: '0 0 40px #A855F7, 0 0 80px #A855F7, 0 0 120px #A855F7' }
+                        },
+                        'pulse-neon': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.5' }
+                        },
+                        matrix: {
+                            '0%': { transform: 'translateY(-100vh)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        'ghost-float': {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '25%': { transform: 'translateY(-30px) rotate(5deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(0deg)' },
+                            '75%': { transform: 'translateY(-10px) rotate(-5deg)' }
+                        },
+                        'data-flow': {
+                            '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateX(100vw)', opacity: '0' }
+                        },
+                        'cyber-pulse': {
+                            '0%, 100%': { 
+                                transform: 'scale(1)',
+                                filter: 'hue-rotate(0deg)'
+                            },
+                            '50%': { 
+                                transform: 'scale(1.05)',
+                                filter: 'hue-rotate(90deg)'
+                            }
+                        },
+                        hologram: {
+                            '0%, 100%': { 
+                                opacity: '0.8',
+                                filter: 'brightness(1) contrast(1)'
+                            },
+                            '50%': { 
+                                opacity: '1',
+                                filter: 'brightness(1.2) contrast(1.1)'
+                            }
+                        },
+                        'scan-line': {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        'digital-rain': {
+                            '0%': { transform: 'translateY(-100vh)' },
+                            '100%': { transform: 'translateY(100vh)' }
+                        },
+                        'energy-wave': {
+                            '0%, 100%': { 
+                                background: 'linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent)'
+                            },
+                            '50%': { 
+                                background: 'linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.8), transparent)'
+                            }
+                        }
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px currentColor',
+                        'neon-lg': '0 0 40px currentColor',
+                        'cyber': '0 8px 32px 0 rgba(124, 58, 237, 0.37)',
+                        'hologram': '0 8px 32px 0 rgba(168, 85, 247, 0.3), inset 0 2px 4px 0 rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap');
+        
+        /* Advanced Matrix Background */
+        .matrix-bg::before {
+            content: '01110100 01101000 01100101 00100000 01100111 01101000 01101111 01110011 01110100 01110100 01101000 01100101 00100000 01100111 01101000 01101111 01110011 01110100 01110100 01101000 01100101 00100000 01100111 01101000 01101111 01110011 01110100';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.05;
+            font-family: 'Orbitron', monospace;
+            font-size: 10px;
+            word-break: break-all;
+            line-height: 12px;
+            animation: digital-rain 25s linear infinite;
+            color: #7C3AED;
+            z-index: 1;
+        }
+        
+        /* Glass Morphism Advanced */
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .glass-morphism-dark {
+            background: rgba(17, 25, 40, 0.75);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+        }
+        
+        /* Cyber Grid */
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(124, 58, 237, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124, 58, 237, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* Holographic Text */
+        .holographic-text {
+            background: linear-gradient(45deg, #7C3AED, #A855F7, #EC4899, #10B981, #F59E0B, #7C3AED);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 4s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+        
+        /* Neon Effects */
+        .neon-border {
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #7C3AED, #A855F7, #EC4899) 1;
+            box-shadow: 
+                0 0 20px rgba(124, 58, 237, 0.5),
+                inset 0 0 20px rgba(168, 85, 247, 0.1);
+        }
+        
+        .neon-text {
+            text-shadow: 
+                0 0 7px currentColor,
+                0 0 10px currentColor,
+                0 0 21px currentColor,
+                0 0 42px #7C3AED,
+                0 0 82px #7C3AED,
+                0 0 92px #7C3AED,
+                0 0 102px #7C3AED,
+                0 0 151px #7C3AED;
+        }
+        
+        /* Scan Line Effect */
+        .scan-line {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scan-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00D4FF, transparent);
+            animation: scan-line 2s linear infinite;
+        }
+        
+        /* Energy Waves */
+        .energy-wave {
+            position: relative;
+        }
+        
+        .energy-wave::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+            animation: energy-wave 3s ease-in-out infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(17, 25, 40, 0.75);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #7C3AED, #A855F7);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #A855F7, #EC4899);
+        }
+        
+        /* Custom Animations */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .glitch {
+            animation: glitch 0.3s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 min-h-screen text-white overflow-x-hidden cyber-grid font-futuristic">
+
+    <!-- Advanced Animated Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Matrix Rain -->
+        <div class="matrix-bg absolute inset-0"></div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute -top-64 -right-64 w-96 h-96 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full opacity-10 animate-ghost-float blur-3xl"></div>
+        <div class="absolute -bottom-64 -left-64 w-[32rem] h-[32rem] bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full opacity-10 animate-ghost-float delay-1000 blur-3xl"></div>
+        <div class="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full opacity-5 animate-float delay-500 blur-2xl"></div>
+        
+        <!-- Energy Particles -->
+        <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-neon-blue rounded-full animate-pulse"></div>
+        <div class="absolute top-3/4 left-1/3 w-1 h-1 bg-neon-pink rounded-full animate-pulse delay-300"></div>
+        <div class="absolute top-2/3 right-1/3 w-1.5 h-1.5 bg-neon-green rounded-full animate-pulse delay-700"></div>
+    </div>
+
+    <!-- Data Flow Lines -->
+    <div class="fixed inset-0 pointer-events-none z-1">
+        <div class="absolute top-1/6 w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-data-flow opacity-30"></div>
+        <div class="absolute top-2/6 w-full h-px bg-gradient-to-r from-transparent via-pink-500 to-transparent animate-data-flow delay-[5s] opacity-20"></div>
+        <div class="absolute top-3/6 w-full h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent animate-data-flow delay-[10s] opacity-25"></div>
+        <div class="absolute top-4/6 w-full h-px bg-gradient-to-r from-transparent via-violet-500 to-transparent animate-data-flow delay-[15s] opacity-20"></div>
+        <div class="absolute top-5/6 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-data-flow delay-[20s] opacity-15"></div>
+    </div>
+
+    <div id="mainContent" class="relative z-10 container mx-auto px-4 py-8">
+        
+        <!-- Ultra Advanced Header -->
+        <header class="text-center mb-16 relative">
+            <!-- Logo Container -->
+            <div class="inline-flex items-center justify-center w-32 h-32 glass-morphism rounded-full mb-8 animate-glow relative group neon-border">
+                <i class="fas fa-ghost text-6xl text-purple-300 group-hover:scale-110 transition-all duration-500 animate-hologram"></i>
+                <div class="absolute -inset-4 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl"></div>
+                <div class="absolute inset-0 rounded-full animate-pulse-neon border-2 border-purple-500"></div>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="text-7xl md:text-9xl lg:text-[8rem] font-cyber font-black holographic-text mb-8 hover:scale-105 transition-transform duration-500 neon-text">
+                ETERNA ULTRA
+            </h1>
+            
+            <!-- Subtitle -->
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent mb-8 animate-cyber-pulse">
+                Multi-Layer Steganography Challenge
+            </h2>
+            
+            <!-- Description -->
+            <div class="max-w-5xl mx-auto space-y-6 mb-12">
+                <p class="text-2xl md:text-3xl text-gray-300 leading-relaxed font-light">
+                    A mysterious <span class="holographic-text font-semibold">ultra-complex signal</span> has been intercepted from the deepest regions of Eterna Forest's <span class="text-purple-400 font-semibold">Distortion World</span>.
+                </p>
+                <p class="text-lg md:text-xl text-gray-400 leading-relaxed">
+                    This signal contains multiple layers of hidden data, frequency domain secrets, time-based encryption, and spectral anomalies that challenge even the most skilled cryptographers.
+                </p>
+                <div class="glass-morphism-dark p-6 rounded-2xl border border-yellow-500/30 max-w-3xl mx-auto">
+                    <div class="flex items-center justify-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 mr-3 text-2xl animate-pulse"></i>
+                        <span class="text-yellow-200 font-semibold text-lg">CLASSIFIED INTELLIGENCE</span>
+                    </div>
+                    <p class="text-yellow-100 text-center">
+                        Advanced steganographic techniques detected. Multi-dimensional analysis required. Temporal elements confirmed.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Difficulty Indicators with Enhanced Design -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <div class="px-6 py-3 glass-morphism rounded-full text-red-300 font-cyber font-bold border border-red-500/50 animate-pulse neon-border energy-wave">
+                    <i class="fas fa-skull-crossbones mr-3"></i>ULTRA HARD
+                </div>
+                <div class="px-6 py-3 glass-morphism rounded-full text-purple-300 font-cyber font-bold border border-purple-500/50 animate-cyber-pulse">
+                    <i class="fas fa-layer-group mr-3"></i>MULTI-LAYER
+                </div>
+                <div class="px-6 py-3 glass-morphism rounded-full text-yellow-300 font-cyber font-bold border border-yellow-500/50 scan-line">
+                    <i class="fas fa-clock mr-3"></i>TIME-BASED
+                </div>
+                <div class="px-6 py-3 glass-morphism rounded-full text-green-300 font-cyber font-bold border border-green-500/50 animate-hologram">
+                    <i class="fas fa-wave-square mr-3"></i>FREQUENCY
+                </div>
+                <div class="px-6 py-3 glass-morphism rounded-full text-blue-300 font-cyber font-bold border border-blue-500/50 animate-glow">
+                    <i class="fas fa-eye mr-3"></i>SPECTRAL
+                </div>
+            </div>
+            
+            <!-- Advanced Progress Indicator -->
+            <div class="max-w-md mx-auto">
+                <div class="glass-morphism-dark p-4 rounded-xl border border-purple-500/30">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-cyber text-purple-300">CHALLENGE COMPLEXITY</span>
+                        <span class="text-sm font-cyber text-red-400">MAXIMUM</span>
+                    </div>
+                    <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 rounded-full animate-pulse w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="max-w-7xl mx-auto space-y-12">
+            
+            <!-- Ultra Upload Section -->
+            <section class="glass-morphism rounded-3xl shadow-cyber p-8 md:p-12 border border-purple-500/30 hover:border-purple-400/60 transition-all duration-700 group neon-border animate-hologram">
+                <div class="flex items-center mb-10">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-600 via-pink-600 to-indigo-600 rounded-3xl flex items-center justify-center mr-8 group-hover:scale-110 transition-transform duration-500 shadow-hologram">
+                        <i class="fas fa-file-audio text-3xl text-white animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-cyber font-bold mb-3 holographic-text">Upload Ultra Signal</h2>
+                        <p class="text-gray-400 text-lg">Prepare for advanced multi-dimensional steganographic analysis</p>
+                        <div class="flex items-center mt-2 text-sm text-purple-300">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            <span>Secure upload • Multi-layer processing • Advanced detection</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="uploadForm" class="space-y-8">
+                    <!-- Advanced File Drop Zone -->
+                    <div class="border-2 border-dashed border-purple-400/50 rounded-3xl p-16 text-center hover:border-purple-400 hover:bg-purple-900/10 transition-all duration-500 group cursor-pointer glass-morphism-dark relative overflow-hidden">
+                        <input type="file" id="audioFile" name="audiofile" accept=".wav" class="hidden" required>
+                        <label for="audioFile" class="cursor-pointer block relative z-10">
+                            <div class="group-hover:scale-110 transition-transform duration-500">
+                                <!-- Upload Icon with Animation -->
+                                <div class="relative mb-8">
+                                    <i class="fas fa-cloud-upload-alt text-8xl text-purple-400 group-hover:text-purple-300 transition-colors duration-500 animate-float"></i>
+                                    <div class="absolute -inset-4 bg-purple-500/20 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                </div>
+                                
+                                <!-- Upload Text -->
+                                <p class="text-3xl font-cyber font-bold mb-4 holographic-text">Drop ultra_ghost_signal.wav here</p>
+                                <p class="text-gray-400 text-xl mb-6">Advanced steganographic payload expected</p>
+                                
+                                <!-- Technical Specs -->
+                                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                                    <span class="px-3 py-1 bg-purple-900/50 rounded-full text-purple-300 border border-purple-500/30">WAV Format</span>
+                                    <span class="px-3 py-1 bg-purple-900/50 rounded-full text-purple-300 border border-purple-500/30">Max 50MB</span>
+                                    <span class="px-3 py-1 bg-purple-900/50 rounded-full text-purple-300 border border-purple-500/30">Multi-Layer Compatible</span>
+                                    <span class="px-3 py-1 bg-purple-900/50 rounded-full text-purple-300 border border-purple-500/30">Expect Complexity</span>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <!-- Background Animation -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-transparent to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    
+                    <!-- Advanced Submit Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 hover:from-purple-700 hover:via-pink-700 hover:to-red-700 text-white font-cyber font-bold py-8 px-12 rounded-3xl text-2xl transition-all transform hover:scale-105 shadow-cyber disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden neon-border">
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-energy-wave"></div>
+                        <div class="relative z-10 flex items-center justify-center">
+                            <i class="fas fa-rocket mr-4 text-2xl group-hover:animate-bounce"></i>
+                            <span>INITIATE ULTRA ANALYSIS</span>
+                            <i class="fas fa-rocket ml-4 text-2xl group-hover:animate-bounce"></i>
+                        </div>
+                        <div class="absolute inset-0 border-2 border-transparent bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Ultra Advanced Loading State -->
+            <section id="loadingState" class="hidden glass-morphism rounded-3xl shadow-cyber p-12 text-center border border-purple-500/30 relative overflow-hidden">
+                <!-- Loading Animation Container -->
+                <div class="relative mb-10">
+                    <div class="relative mx-auto w-32 h-32">
+                        <!-- Multiple Spinning Rings -->
+                        <div class="absolute inset-0 animate-spin rounded-full border-t-4 border-purple-400 border-opacity-75"></div>
+                        <div class="absolute inset-2 animate-spin rounded-full border-t-4 border-pink-400 border-opacity-75" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                        <div class="absolute inset-4 animate-spin rounded-full border-t-4 border-indigo-400 border-opacity-75" style="animation-duration: 2s;"></div>
+                        
+                        <!-- Central Pulsing Core -->
+                        <div class="absolute inset-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full animate-pulse shadow-neon-lg"></div>
+                        
+                        <!-- Orbiting Particles -->
+                        <div class="absolute inset-0 animate-spin" style="animation-duration: 3s;">
+                            <div class="absolute top-0 left-1/2 w-2 h-2 bg-purple-400 rounded-full transform -translate-x-1/2 shadow-neon"></div>
+                        </div>
+                        <div class="absolute inset-0 animate-spin" style="animation-duration: 4s; animation-direction: reverse;">
+                            <div class="absolute bottom-0 left-1/2 w-2 h-2 bg-pink-400 rounded-full transform -translate-x-1/2 shadow-neon"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Energy Rings -->
+                    <div class="absolute inset-0 animate-ping rounded-full border border-purple-400 opacity-30"></div>
+                    <div class="absolute inset-4 animate-ping rounded-full border border-pink-400 opacity-20" style="animation-delay: 0.5s;"></div>
+                </div>
+                
+                <!-- Loading Information -->
+                <div class="space-y-6">
+                    <h3 class="text-4xl font-cyber font-bold holographic-text mb-6">MULTI-LAYER ANALYSIS IN PROGRESS</h3>
+                    
+                    <div class="space-y-4 text-gray-300 max-w-2xl mx-auto">
+                        <p id="loadingStep" class="text-xl font-semibold text-purple-300">Initializing quantum processors...</p>
+                        
+                        <!-- Advanced Progress Bar -->
+                        <div class="relative">
+                            <div class="w-full bg-gray-800 rounded-full h-4 overflow-hidden border border-purple-500/30">
+                                <div id="progressBar" class="h-full bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-500 rounded-full transition-all duration-500 shadow-neon relative overflow-hidden" style="width: 0%">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-white/20 via-white/40 to-white/20 animate-energy-wave"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-sm text-gray-400">
+                                <span>Quantum Analysis</span>
+                                <span id="progressPercent">0%</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Technical Details -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                            <div class="glass-morphism-dark p-4 rounded-xl border border-purple-500/20 text-center">
+                                <i class="fas fa-layer-group text-2xl text-purple-400 mb-2"></i>
+                                <p class="text-sm font-cyber">LSB Extraction</p>
+                            </div>
+                            <div class="glass-morphism-dark p-4 rounded-xl border border-pink-500/20 text-center">
+                                <i class="fas fa-wave-square text-2xl text-pink-400 mb-2"></i>
+                                <p class="text-sm font-cyber">Frequency Analysis</p>
+                            </div>
+                            <div class="glass-morphism-dark p-4 rounded-xl border border-indigo-500/20 text-center">
+                                <i class="fas fa-chart-line text-2xl text-indigo-400 mb-2"></i>
+                                <p class="text-sm font-cyber">Spectral Processing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Background Scan Lines -->
+                <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                    <div class="absolute w-full h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-scan-line"></div>
+                </div>
+            </section>
+
+            <!-- Ultra Results Section -->
+            <section id="resultsSection" class="hidden space-y-12">
+                
+                <!-- Multi-Spectrogram Analysis Panel -->
+                <div class="glass-morphism rounded-3xl shadow-cyber border border-green-500/30 p-8 neon-border">
+                    <div class="flex items-center mb-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-teal-600 rounded-3xl flex items-center justify-center mr-8 shadow-hologram animate-cyber-pulse">
+                            <i class="fas fa-chart-line text-3xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl font-cyber font-bold mb-3 holographic-text">Multi-Layer Spectrograms</h3>
+                            <p class="text-gray-400 text-lg">Advanced frequency domain analysis and pattern recognition</p>
+                            <div class="flex items-center mt-2 text-sm text-green-300">
+                                <i class="fas fa-microscope mr-2"></i>
+                                <span>Quantum-enhanced • Pattern detection • Visual decryption</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Spectrogram Tabs -->
+                    <div class="mb-8">
+                        <div class="flex flex-wrap gap-3">
+                            <button class="spectrogram-tab active px-8 py-4 bg-purple-600 text-white rounded-2xl font-cyber font-bold transition-all hover:bg-purple-700 shadow-cyber border border-purple-400/50 neon-border" data-tab="primary">
+                                <i class="fas fa-search mr-2"></i>Primary Analysis
+                            </button>
+                            <button class="spectrogram-tab px-8 py-4 bg-gray-700 text-gray-300 rounded-2xl font-cyber font-bold transition-all hover:bg-gray-600 border border-gray-600/50" data-tab="high_res">
+                                <i class="fas fa-microscope mr-2"></i>High Resolution
+                            </button>
+                            <button class="spectrogram-tab px-8 py-4 bg-gray-700 text-gray-300 rounded-2xl font-cyber font-bold transition-all hover:bg-gray-600 border border-gray-600/50" data-tab="phase">
+                                <i class="fas fa-wave-square mr-2"></i>Phase Analysis
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <!-- Spectrogram Display -->
+                        <div id="spectrogramContainer" class="glass-morphism-dark rounded-3xl p-8 border border-green-500/20 relative overflow-hidden">
+                            <img id="spectrogramImage" class="w-full h-auto rounded-2xl shadow-cyber border border-green-500/30" alt="Spectrogram Analysis">
+                            
+                            <!-- Scan Line Effect Overlay -->
+                            <div class="absolute inset-0 pointer-events-none">
+                                <div class="scan-line w-full h-full rounded-2xl"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Analysis Tips -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="glass-morphism-dark rounded-2xl p-6 border border-blue-500/30 hover:border-blue-400/50 transition-colors duration-300">
+                                <div class="flex items-center mb-4">
+                                    <i class="fas fa-info-circle text-3xl text-blue-400 mr-4"></i>
+                                    <h4 class="font-cyber font-bold text-blue-300">Pattern Recognition</h4>
+                                </div>
+                                <p class="text-blue-200 text-sm leading-relaxed">Look for visual patterns that spell Pokémon names. Each character appears as distinct frequency signatures across time segments.</p>
+                            </div>
+                            <div class="glass-morphism-dark rounded-2xl p-6 border border-purple-500/30 hover:border-purple-400/50 transition-colors duration-300">
+                                <div class="flex items-center mb-4">
+                                    <i class="fas fa-eye text-3xl text-purple-400 mr-4"></i>
+                                    <h4 class="font-cyber font-bold text-purple-300">Multi-Resolution</h4>
+                                </div>
+                                <p class="text-purple-200 text-sm leading-relaxed">Check different resolutions and phase analyses. Some patterns are only visible at specific frequency ranges and time scales.</p>
+                            </div>
+                            <div class="glass-morphism-dark rounded-2xl p-6 border border-green-500/30 hover:border-green-400/50 transition-colors duration-300">
+                                <div class="flex items-center mb-4">
+                                    <i class="fas fa-search-plus text-3xl text-green-400 mr-4"></i>
+                                    <h4 class="font-cyber font-bold text-green-300">Advanced Analysis</h4>
+                                </div>
+                                <p class="text-green-200 text-sm leading-relaxed">Rotate views if patterns aren't clear. Consider time-domain segmentation and frequency band isolation for enhanced visibility.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ultra Cipher Decryption Panel -->
+                <div class="glass-morphism rounded-3xl shadow-cyber border border-yellow-500/30 p-8 neon-border">
+                    <div class="flex items-center mb-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-yellow-600 to-orange-600 rounded-3xl flex items-center justify-center mr-8 shadow-hologram animate-glow">
+                            <i class="fas fa-key text-3xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl font-cyber font-bold mb-3 holographic-text">Multi-Stage Decryption</h3>
+                            <p class="text-gray-400 text-lg">Advanced cryptographic analysis with temporal elements</p>
+                            <div class="flex items-center mt-2 text-sm text-yellow-300">
+                                <i class="fas fa-lock mr-2"></i>
+                                <span>Caesar cipher • Vigenère encryption • Time-based keys</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced Cipher Tabs -->
+                    <div class="mb-8">
+                        <div class="flex flex-wrap gap-3">
+                            <button class="cipher-tab active px-6 py-3 bg-yellow-600 text-white rounded-xl font-cyber font-bold text-sm transition-all hover:bg-yellow-700 shadow-cyber border border-yellow-400/50 neon-border" data-cipher="primary">
+                                <i class="fas fa-shield-alt mr-2"></i>Primary
+                            </button>
+                            <button class="cipher-tab px-6 py-3 bg-gray-700 text-gray-300 rounded-xl font-cyber font-bold text-sm transition-all hover:bg-gray-600 border border-gray-600/50" data-cipher="secondary">
+                                <i class="fas fa-layer-group mr-2"></i>Secondary
+                            </button>
+                            <button class="cipher-tab px-6 py-3 bg-gray-700 text-gray-300 rounded-xl font-cyber font-bold text-sm transition-all hover:bg-gray-600 border border-gray-600/50" data-cipher="tertiary">
+                                <i class="fas fa-clock mr-2"></i>Time-Based
+                            </button>
+                            <button class="cipher-tab px-6 py-3 bg-gray-700 text-gray-300 rounded-xl font-cyber font-bold text-sm transition-all hover:bg-gray-600 border border-gray-600/50" data-cipher="quaternary">
+                                <i class="fas fa-wave-square mr-2"></i>Frequency
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <!-- Current Cipher Display -->
+                        <div>
+                            <label class="block text-xl font-cyber font-bold mb-4 text-yellow-300">
+                                <i class="fas fa-file-code mr-2"></i>Current Cipher Text:
+                            </label>
+                            <div class="glass-morphism-dark rounded-2xl p-8 font-mono text-green-400 text-lg break-all border border-green-500/20 relative overflow-hidden">
+                                <span id="currentCipherText" class="relative z-10"></span>
+                                <!-- Background Matrix Effect -->
+                                <div class="absolute inset-0 opacity-20 text-xs leading-3 overflow-hidden text-green-600">
+                                    01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Decryption Controls -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4">
+                                <label for="decryptionKey" class="block text-xl font-cyber font-bold text-purple-300">
+                                    <i class="fas fa-dragon mr-2"></i>Pokémon Key (from spectrogram):
+                                </label>
+                                <div class="relative">
+                                    <input type="text" id="decryptionKey" placeholder="Enter Pokémon name..." 
+                                           class="w-full bg-black/50 border-2 border-purple-600/50 rounded-2xl px-6 py-4 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none text-lg font-cyber transition-all duration-300 neon-border">
+                                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600/10 to-pink-600/10 opacity-0 focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                                <div class="flex items-center text-sm text-purple-300">
+                                    <i class="fas fa-lightbulb mr-2"></i>
+                                    <span>Extracted from spectrogram visual patterns</span>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <label for="caesarShift" class="block text-xl font-cyber font-bold text-orange-300">
+                                    <i class="fas fa-cog mr-2"></i>Caesar Shift (0-25):
+                                </label>
+                                <div class="relative">
+                                    <input type="number" id="caesarShift" value="3" min="0" max="25"
+                                           class="w-full bg-black/50 border-2 border-orange-600/50 rounded-2xl px-6 py-4 text-white focus:border-orange-400 focus:outline-none text-lg font-cyber transition-all duration-300 neon-border">
+                                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-600/10 to-red-600/10 opacity-0 focus-within:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                                </div>
+                                <div class="flex items-center text-sm text-orange-300">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    <span>Standard range: 3 (most common)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced Decrypt Button -->
+                        <button id="decryptBtn" class="w-full bg-gradient-to-r from-green-600 via-teal-600 to-blue-600 hover:from-green-700 hover:via-teal-700 hover:to-blue-700 text-white font-cyber font-bold py-6 px-10 rounded-2xl text-xl transition-all transform hover:scale-105 shadow-cyber group relative overflow-hidden neon-border">
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-energy-wave"></div>
+                            <div class="relative z-10 flex items-center justify-center">
+                                <i class="fas fa-unlock-alt mr-3 text-xl group-hover:animate-pulse"></i>
+                                <span>DECRYPT CURRENT LAYER</span>
+                                <i class="fas fa-unlock-alt ml-3 text-xl group-hover:animate-pulse"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ultra Decryption Results Panel -->
+                <div id="decryptionResults" class="hidden glass-morphism rounded-3xl shadow-cyber border border-red-500/30 p-8 neon-border">
+                    <div class="flex items-center mb-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-red-600 to-pink-600 rounded-3xl flex items-center justify-center mr-8 shadow-hologram animate-hologram">
+                            <i class="fas fa-flag text-3xl text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-4xl font-cyber font-bold mb-3 holographic-text">Decryption Results</h3>
+                            <p class="text-gray-400 text-lg">Cryptographic analysis complete</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-8">
+                        <!-- Results Display -->
+                        <div class="glass-morphism-dark rounded-2xl p-8 border border-green-500/20 relative overflow-hidden">
+                            <div class="relative z-10">
+                                <pre id="decryptedText" class="text-green-400 font-mono text-lg whitespace-pre-wrap break-all leading-relaxed"></pre>
+                            </div>
+                            <!-- Success Background Effect -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-600/5 via-transparent to-green-600/5 animate-energy-wave"></div>
+                        </div>
+                        
+                        <!-- Success Message -->
+                        <div id="successMessage" class="hidden p-8 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border-2 border-green-600/50 rounded-2xl neon-border relative overflow-hidden">
+                            <div class="flex items-center relative z-10">
+                                <div class="mr-6">
+                                    <i class="fas fa-trophy text-6xl text-green-400 animate-bounce"></i>
+                                </div>
+                                <div>
+                                    <p class="text-green-200 font-cyber font-bold text-3xl mb-2">🎉 CONGRATULATIONS, ELITE HACKER! 🎉</p>
+                                    <p class="text-green-300 text-xl">You've successfully decoded the ultra-complex ghost message!</p>
+                                    <p class="text-green-400 text-lg mt-2">Master of Multi-Layer Steganography achieved.</p>
+                                </div>
+                            </div>
+                            <!-- Success Background Animation -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-600/10 via-emerald-600/20 to-green-600/10 animate-energy-wave"></div>
+                        </div>
+                        
+                        <!-- Partial Success Message -->
+                        <div id="partialMessage" class="hidden p-8 bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-2 border-yellow-600/50 rounded-2xl relative overflow-hidden">
+                            <div class="flex items-center relative z-10">
+                                <div class="mr-6">
+                                    <i class="fas fa-lightbulb text-4xl text-yellow-400 animate-pulse"></i>
+                                </div>
+                                <div>
+                                    <p class="text-yellow-200 font-cyber font-bold text-2xl mb-2">Partial Success Detected</p>
+                                    <p id="hintText" class="text-yellow-300 text-lg"></p>
+                                    <p class="text-yellow-400 text-sm mt-2">Continue analysis for complete solution.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enhanced Error Display -->
+            <div id="errorMessage" class="hidden bg-gradient-to-r from-red-900/30 to-pink-900/30 border-2 border-red-600/50 rounded-2xl p-8 neon-border relative overflow-hidden">
+                <div class="flex items-center relative z-10">
+                    <div class="mr-6">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-400 animate-pulse"></i>
+                    </div>
+                    <div>
+                        <p class="text-red-200 font-cyber font-bold text-2xl mb-2">Analysis Error Detected</p>
+                        <p id="errorText" class="text-red-300 text-lg"></p>
+                        <p class="text-red-400 text-sm mt-2">Please verify your input and try again.</p>
+                    </div>
+                </div>
+                <!-- Error Background Animation -->
+                <div class="absolute inset-0 bg-gradient-to-r from-red-600/10 via-pink-600/20 to-red-600/10 animate-energy-wave"></div>
+            </div>
+        </main>
+
+        <!-- Ultra Advanced Footer -->
+        <footer class="mt-20 text-center">
+            <div class="glass-morphism rounded-3xl p-8 max-w-5xl mx-auto border border-purple-500/30 neon-border">
+                <div class="mb-6">
+                    <h4 class="text-2xl font-cyber font-bold holographic-text mb-4">Ultra-Advanced Steganography Challenge</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
+                        Featuring multi-layer LSB extraction, frequency domain analysis, phase spectroscopy, 
+                        time-based encryption, and advanced visual pattern recognition technologies.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4 mb-6">
+                    <span class="px-4 py-2 glass-morphism-dark rounded-full text-purple-300 border border-purple-500/30 font-cyber text-sm">Multi-Layer</span>
+                    <span class="px-4 py-2 glass-morphism-dark rounded-full text-blue-300 border border-blue-500/30 font-cyber text-sm">Phase Analysis</span>
+                    <span class="px-4 py-2 glass-morphism-dark rounded-full text-green-300 border border-green-500/30 font-cyber text-sm">Time-Based</span>
+                    <span class="px-4 py-2 glass-morphism-dark rounded-full text-red-300 border border-red-500/30 font-cyber text-sm">Ultra Hard</span>
+                    <span class="px-4 py-2 glass-morphism-dark rounded-full text-yellow-300 border border-yellow-500/30 font-cyber text-sm">Spectral</span>
+                </div>
+                
+                <div class="text-gray-500 text-sm font-cyber">
+                    <p>© 2025 Eterna Forest Ultra Challenge • Advanced Cryptographic Technologies</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Ultra Advanced JavaScript (NO ANTI-INSPECTION) -->
+    <script>
+        // =================== DEVELOPMENT MODE - NO SECURITY PROTECTION ===================
+        const DEVELOPMENT_MODE = true; // Set to false for production
+        
+        // =================== MAIN APPLICATION LOGIC ===================
+        
+        // Enhanced State Management
+        const AppState = {
+            currentSpectrograms: {},
+            currentCiphers: {},
+            currentCipherType: 'primary',
+            currentSpectrogramType: 'primary',
+            isLoading: false,
+            uploadProgress: 0
+        };
+
+        // DOM Elements
+        const elements = {
+            uploadForm: document.getElementById('uploadForm'),
+            loadingState: document.getElementById('loadingState'),
+            resultsSection: document.getElementById('resultsSection'),
+            errorMessage: document.getElementById('errorMessage'),
+            decryptBtn: document.getElementById('decryptBtn'),
+            progressBar: document.getElementById('progressBar'),
+            progressPercent: document.getElementById('progressPercent'),
+            loadingStep: document.getElementById('loadingStep'),
+            audioFile: document.getElementById('audioFile'),
+            spectrogramImage: document.getElementById('spectrogramImage'),
+            currentCipherText: document.getElementById('currentCipherText'),
+            decryptionKey: document.getElementById('decryptionKey'),
+            caesarShift: document.getElementById('caesarShift'),
+            decryptedText: document.getElementById('decryptedText'),
+            successMessage: document.getElementById('successMessage'),
+            partialMessage: document.getElementById('partialMessage'),
+            hintText: document.getElementById('hintText'),
+            errorText: document.getElementById('errorText'),
+            decryptionResults: document.getElementById('decryptionResults')
+        };
+
+        // Enhanced Upload Form Handler
+        elements.uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!elements.audioFile.files[0]) {
+                showError('Please select a WAV file for quantum analysis');
+                return;
+            }
+
+            const file = elements.audioFile.files[0];
+            
+            // Enhanced file validation
+            if (!file.name.toLowerCase().endsWith('.wav')) {
+                showError('Invalid file format. Only WAV files are accepted for steganographic analysis.');
+                return;
+            }
+            
+            if (file.size > 50 * 1024 * 1024) {
+                showError('File too large. Maximum 50MB allowed for optimal processing.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('audiofile', file);
+
+            showLoading();
+            hideError();
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    await simulateAdvancedLoading();
+                    showResults(data);
+                } else {
+                    showError(data.error || 'Quantum analysis failed - steganographic patterns not detected');
+                }
+            } catch (error) {
+                showError('Network quantum tunneling error: ' + error.message);
+            }
+
+            hideLoading();
+        });
+
+        // Ultra Advanced Loading Simulation
+        async function simulateAdvancedLoading() {
+            const loadingSteps = [
+                'Initializing quantum processors...',
+                'Extracting LSB layers from multiple bit positions...',
+                'Analyzing frequency domain for hidden patterns...',
+                'Processing phase information and spectral data...',
+                'Generating multi-resolution spectrograms...',
+                'Extracting complex metadata ciphers...',
+                'Validating time-based encryption elements...',
+                'Performing dimensional analysis...',
+                'Correlating temporal signatures...',
+                'Finalizing ultra-analysis protocol...'
+            ];
+
+            for (let i = 0; i < loadingSteps.length; i++) {
+                elements.loadingStep.textContent = loadingSteps[i];
+                const progress = ((i + 1) / loadingSteps.length) * 100;
+                elements.progressBar.style.width = `${progress}%`;
+                elements.progressPercent.textContent = `${Math.round(progress)}%`;
+                
+                // Variable timing for realism
+                const delay = 800 + Math.random() * 400;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+
+        // Enhanced Decrypt Button Handler
+        elements.decryptBtn.addEventListener('click', async () => {
+            const key = elements.decryptionKey.value.trim();
+            const caesarShift = elements.caesarShift.value;
+            const cipherText = elements.currentCipherText.textContent;
+
+            if (!key) {
+                showError('Please enter the Pokémon name extracted from the spectrogram analysis');
+                return;
+            }
+
+            if (!cipherText) {
+                showError('No cipher text available for decryption');
+                return;
+            }
+
+            // Visual feedback
+            elements.decryptBtn.disabled = true;
+            elements.decryptBtn.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-spinner animate-spin mr-3"></i>
+                    <span>PROCESSING...</span>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cipher_type: AppState.currentCipherType,
+                        cipher_text: cipherText,
+                        key: key,
+                        caesar_shift: parseInt(caesarShift)
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showDecryptionResults(data);
+                } else {
+                    showError(data.error || 'Decryption quantum process failed');
+                }
+            } catch (error) {
+                showError('Cryptographic quantum tunnel error: ' + error.message);
+            } finally {
+                // Restore button
+                elements.decryptBtn.disabled = false;
+                elements.decryptBtn.innerHTML = `
+                    <div class="relative z-10 flex items-center justify-center">
+                        <i class="fas fa-unlock-alt mr-3 text-xl group-hover:animate-pulse"></i>
+                        <span>DECRYPT CURRENT LAYER</span>
+                        <i class="fas fa-unlock-alt ml-3 text-xl group-hover:animate-pulse"></i>
+                    </div>
+                `;
+            }
+        });
+
+        // Enhanced Tab Switching
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('spectrogram-tab')) {
+                const tabType = e.target.getAttribute('data-tab');
+                switchSpectrogramTab(tabType);
+            }
+            
+            if (e.target.classList.contains('cipher-tab')) {
+                const cipherType = e.target.getAttribute('data-cipher');
+                switchCipherTab(cipherType);
+            }
+        });
+
+        function switchSpectrogramTab(tabType) {
+            // Update tab appearance with animations
+            document.querySelectorAll('.spectrogram-tab').forEach(tab => {
+                tab.classList.remove('active', 'bg-purple-600', 'text-white', 'neon-border');
+                tab.classList.add('bg-gray-700', 'text-gray-300');
+            });
+            
+            const activeTab = document.querySelector(`[data-tab="${tabType}"]`);
+            activeTab.classList.remove('bg-gray-700', 'text-gray-300');
+            activeTab.classList.add('active', 'bg-purple-600', 'text-white', 'neon-border');
+            
+            // Update spectrogram with fade effect
+            if (AppState.currentSpectrograms[tabType]) {
+                elements.spectrogramImage.style.opacity = '0';
+                setTimeout(() => {
+                    elements.spectrogramImage.src = 'data:image/png;base64,' + AppState.currentSpectrograms[tabType];
+                    elements.spectrogramImage.style.opacity = '1';
+                    AppState.currentSpectrogramType = tabType;
+                }, 200);
+            }
+        }
+
+        function switchCipherTab(cipherType) {
+            // Update tab appearance
+            document.querySelectorAll('.cipher-tab').forEach(tab => {
+                tab.classList.remove('active', 'bg-yellow-600', 'text-white', 'neon-border');
+                tab.classList.add('bg-gray-700', 'text-gray-300');
+            });
+            
+            const activeTab = document.querySelector(`[data-cipher="${cipherType}"]`);
+            activeTab.classList.remove('bg-gray-700', 'text-gray-300');
+            activeTab.classList.add('active', 'bg-yellow-600', 'text-white', 'neon-border');
+            
+            // Update cipher text with typewriter effect
+            if (AppState.currentCiphers[cipherType]) {
+                const newText = AppState.currentCiphers[cipherType];
+                typewriterEffect(elements.currentCipherText, newText);
+                AppState.currentCipherType = cipherType;
+            }
+        }
+
+        // Typewriter Effect
+        function typewriterEffect(element, text) {
+            element.textContent = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                element.textContent += text[i];
+                i++;
+                if (i >= text.length) {
+                    clearInterval(timer);
+                }
+            }, 20);
+        }
+
+        // Enhanced UI Functions
+        function showLoading() {
+            AppState.isLoading = true;
+            elements.loadingState.classList.remove('hidden');
+            elements.resultsSection.classList.add('hidden');
+            elements.progressBar.style.width = '0%';
+            elements.progressPercent.textContent = '0%';
+        }
+
+        function hideLoading() {
+            AppState.isLoading = false;
+            elements.loadingState.classList.add('hidden');
+        }
+
+        function showResults(data) {
+            AppState.currentSpectrograms = data.spectrograms;
+            AppState.currentCiphers = data.ciphers;
+            
+            // Set initial spectrogram with fade-in
+            elements.spectrogramImage.style.opacity = '0';
+            setTimeout(() => {
+                elements.spectrogramImage.src = 'data:image/png;base64,' + data.spectrograms.primary;
+                elements.spectrogramImage.style.opacity = '1';
+            }, 300);
+            
+            // Set initial cipher with typewriter effect
+            typewriterEffect(elements.currentCipherText, data.ciphers.primary);
+            
+            elements.resultsSection.classList.remove('hidden');
+            
+            // Smooth scroll to results
+            elements.resultsSection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function showDecryptionResults(data) {
+            typewriterEffect(elements.decryptedText, data.decrypted_message);
+            elements.decryptionResults.classList.remove('hidden');
+
+            if (data.congratulations) {
+                elements.successMessage.classList.remove('hidden');
+                elements.partialMessage.classList.add('hidden');
+                
+                // Success animation
+                setTimeout(() => {
+                    confettiEffect();
+                }, 500);
+            } else if (data.hint) {
+                elements.hintText.textContent = data.hint;
+                elements.partialMessage.classList.remove('hidden');
+                elements.successMessage.classList.add('hidden');
+            }
+            
+            // Scroll to results
+            elements.decryptionResults.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        function showError(message) {
+            elements.errorText.textContent = message;
+            elements.errorMessage.classList.remove('hidden');
+            
+            // Auto-hide after 8 seconds
+            setTimeout(() => {
+                elements.errorMessage.classList.add('hidden');
+            }, 8000);
+            
+            // Scroll to error
+            elements.errorMessage.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+
+        function hideError() {
+            elements.errorMessage.classList.add('hidden');
+        }
+
+        // Confetti Effect for Success
+        function confettiEffect() {
+            // Simple confetti effect using CSS animations
+            for (let i = 0; i < 50; i++) {
+                createConfettiPiece();
+            }
+        }
+
+        function createConfettiPiece() {
+            const confetti = document.createElement('div');
+            confetti.style.cssText = `
+                position: fixed;
+                top: -10px;
+                left: ${Math.random() * 100}vw;
+                width: 8px;
+                height: 8px;
+                background: ${['#7C3AED', '#A855F7', '#EC4899', '#10B981', '#F59E0B'][Math.floor(Math.random() * 5)]};
+                pointer-events: none;
+                z-index: 10000;
+                animation: confettiFall 3s ease-out forwards;
+            `;
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, 3000);
+        }
+
+        // Add confetti animation to CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiFall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Enhanced File Input Handling
+        elements.audioFile.addEventListener('change', function(e) {
+            const label = e.target.parentElement.querySelector('label > div');
+            if (e.target.files[0]) {
+                const file = e.target.files[0];
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                
+                label.innerHTML = `
+                    <div class="relative mb-8">
+                        <i class="fas fa-file-audio text-8xl text-green-400 animate-pulse"></i>
+                        <div class="absolute -inset-4 bg-green-500/20 rounded-full animate-ping"></div>
+                    </div>
+                    <p class="text-3xl font-cyber font-bold mb-4 text-green-300">${file.name}</p>
+                    <p class="text-gray-400 text-xl mb-6">File size: ${fileSize} MB</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm">
+                        <span class="px-3 py-1 bg-green-900/50 rounded-full text-green-300 border border-green-500/30">✓ Valid Format</span>
+                        <span class="px-3 py-1 bg-green-900/50 rounded-full text-green-300 border border-green-500/30">✓ Ready for Analysis</span>
+                        <span class="px-3 py-1 bg-green-900/50 rounded-full text-green-300 border border-green-500/30">✓ Quantum Compatible</span>
+                    </div>
+                `;
+                
+                label.parentElement.parentElement.classList.add('border-green-400', 'bg-green-900/10');
+                label.parentElement.parentElement.classList.remove('border-purple-400/50');
+            }
+        });
+
+        // Initialize Advanced UI Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Staggered fade-in animations
+            document.querySelectorAll('.glass-morphism').forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(50px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 1s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+        });
+
+        // Initialize everything
+        console.log('%c🚀 ETERNA ULTRA INITIALIZED', 'color: #7C3AED; font-size: 20px; font-weight: bold;');
+        console.log('%c✅ DEVELOPMENT MODE ACTIVE - NO SECURITY RESTRICTIONS', 'color: #10B981; font-size: 14px; font-weight: bold;');
+    </script>
+</body>
+</html>
