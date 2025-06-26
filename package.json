@@ -1,0 +1,11 @@
+{
+  "name": "eterna-forest-ctf",
+  "version": "1.0.0",
+  "description": "Ultra-hard multi-layer steganography challenge",
+  "scripts": {
+    "dev": "python api/index.py",
+    "start": "python api/index.py"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
