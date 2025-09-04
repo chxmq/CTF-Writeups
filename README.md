@@ -1,4 +1,4 @@
-# Eterna Forest Ultra CTF Challenge
+# Eterna Forest Ultra CTF Challenges
 
 ## 🎯 Overview
 
