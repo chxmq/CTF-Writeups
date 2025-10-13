@@ -1,4 +1,4 @@
-# Eterna Forest Ultra CTF Challenges
+#CTF Challenges
 
 Some CTF Challenges
 
