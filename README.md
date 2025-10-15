@@ -1,7 +1,3 @@
-#CTF Challenges
-
-Some CTF Challenges
-
 ## 🎯 Overview
 
 Ultra-hard multi-layer steganography challenge featuring:
